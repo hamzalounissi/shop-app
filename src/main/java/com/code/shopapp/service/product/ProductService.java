@@ -1,6 +1,6 @@
 package com.code.shopapp.service.product;
 
-import com.code.shopapp.exceptions.ProductNotFoundException;
+import com.code.shopapp.exceptions.RessourceNotFoundException;
 import com.code.shopapp.model.Category;
 import com.code.shopapp.model.Product;
 import com.code.shopapp.repository.CategoryRepository;
@@ -34,14 +34,14 @@ public class ProductService implements IProductService{
 
     @Override
     public Product getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow(()-> new ProductNotFoundException("Product not found !"));
+        return productRepository.findById(id).orElseThrow(()-> new RessourceNotFoundException("Product not found !"));
     }
 
     @Override
     public void deleteProductById(Long id) {
         productRepository.findById(id)
                 .ifPresentOrElse(productRepository::delete, ()-> {
-                    throw new ProductNotFoundException("Product not found !");
+                    throw new RessourceNotFoundException("Product not found !");
         });
     }
 
@@ -50,7 +50,7 @@ public class ProductService implements IProductService{
         return productRepository.findById(productId)
                 .map(existingProduct -> updateExistingProduct(existingProduct, request))
                 .map(productRepository::save)
-                .orElseThrow(()-> new ProductNotFoundException("Product not found"));
+                .orElseThrow(()-> new RessourceNotFoundException("Product not found"));
     }
 
     @Override
